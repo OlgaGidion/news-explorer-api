@@ -3,9 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const { Joi, celebrate, errors } = require('celebrate');
-const { createUser } = require('./controllers/createUser');
-const { login } = require('./controllers/users');
+const { errors } = require('celebrate');
+const signup = require('./routes/signup');
+const signin = require('./routes/signin');
 const users = require('./routes/users');
 const articles = require('./routes/articles');
 const auth = require('./middlewares/auth');
@@ -29,21 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(requestLogger);
 
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-    name: Joi.string().min(2).max(30),
-  }),
-}), createUser);
-
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }),
-}), login);
-
+app.use('/signup', signup);
+app.use('/signin', signin);
 app.use('/users', auth, users);
 app.use('/articles', auth, articles);
 
