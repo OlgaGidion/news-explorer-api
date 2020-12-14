@@ -12,13 +12,13 @@ const createUser = async (req, res, next) => {
 
     const soltedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.create({
+    await User.create({
       email,
       password: soltedPassword,
       name,
     });
 
-    res.status(201).send({ _id: newUser._id });
+    res.status(201).send({ message: 'Пользователь создан' });
   } catch (error) {
     if (error.name === 'MongoError' && error.code === 11000) {
       next(new RequestError('Пользователь с таким email уже существует'));

@@ -3,10 +3,9 @@ const RequestError = require('../errors/RequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
-const getAllArticles = async (req, res, next) => {
+const getMyArticles = async (req, res, next) => {
   try {
-    const articles = await Article.find({})
-      .populate('owner');
+    const articles = await Article.find({ owner: req.user._id });
     res.status(200).send(articles);
   } catch (error) {
     next(error);
@@ -24,8 +23,9 @@ const saveArticle = async (req, res, next) => {
       link,
       image,
     } = req.body;
+
     const owner = req.user._id;
-    const newArticle = await Article.create({
+    await Article.create({
       keyword,
       title,
       text,
@@ -35,8 +35,8 @@ const saveArticle = async (req, res, next) => {
       image,
       owner,
     });
-    await Article.populate(newArticle, 'owner');
-    res.status(201).send(newArticle);
+
+    res.status(201).send({ message: 'Статья сохранена' });
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new RequestError('Ошибка в данных'));
@@ -73,7 +73,7 @@ const unsaveArticle = async (req, res, next) => {
 };
 
 module.exports = {
-  getAllArticles,
+  getMyArticles,
   saveArticle,
   unsaveArticle,
 };

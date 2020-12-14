@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const {
-  getAllArticles,
+  getMyArticles,
   saveArticle,
   unsaveArticle,
 } = require('../controllers/articles');
@@ -12,7 +12,7 @@ const validateId = celebrate({
   }),
 });
 
-router.get('/', getAllArticles);
+router.get('/', getMyArticles);
 
 router.post('/', celebrate({
   body: Joi.object().keys({
