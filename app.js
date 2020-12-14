@@ -4,14 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
-const signup = require('./routes/signup');
-const signin = require('./routes/signin');
-const users = require('./routes/users');
-const articles = require('./routes/articles');
-const auth = require('./middlewares/auth');
+const routes = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const NotFoundError = require('./errors/NotFoundError');
 const logger = require('./utils/logger');
 
 const { PORT = 3000 } = process.env;
@@ -25,21 +20,11 @@ mongoose.connect(MONGO_ADDRESS, {
 });
 
 const app = express();
-
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(requestLogger);
-
-app.use('/signup', signup);
-app.use('/signin', signin);
-app.use('/users', auth, users);
-app.use('/articles', auth, articles);
-
-app.all('*', (req, res, next) => {
-  next(new NotFoundError('Запрашиваемый ресурс не найден'));
-});
-
+app.use(routes);
 app.use(errorLogger);
 app.use(errors());
 app.use(errorHandler);
