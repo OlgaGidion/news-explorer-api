@@ -41,6 +41,7 @@ const articleSchema = new Schema({
     type: ObjectId,
     required: true,
     ref: 'user',
+    select: false,
   },
 });
 

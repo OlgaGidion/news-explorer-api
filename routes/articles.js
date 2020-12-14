@@ -2,8 +2,15 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const {
   getAllArticles,
-  createArticle,
+  saveArticle,
+  unsaveArticle,
 } = require('../controllers/articles');
+
+const validateId = celebrate({
+  params: Joi.object().keys({
+    articleId: Joi.string().alphanum().length(24),
+  }),
+});
 
 router.get('/', getAllArticles);
 
@@ -17,6 +24,8 @@ router.post('/', celebrate({
     link: Joi.string().required().uri({ scheme: ['https', 'http'] }),
     image: Joi.string().required().uri({ scheme: ['https', 'http'] }),
   }),
-}), createArticle);
+}), saveArticle);
+
+router.delete('/:articleId', validateId, unsaveArticle);
 
 module.exports = router;
