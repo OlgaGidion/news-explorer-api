@@ -50,7 +50,7 @@ const saveArticle = async (req, res, next) => {
 const unsaveArticle = async (req, res, next) => {
   try {
     const { articleId } = req.params;
-    const article = await Article.findById(articleId);
+    const article = await Article.findById(articleId).select('+owner');
 
     if (!article) {
       throw new NotFoundError('Нет статьи с таким id');
