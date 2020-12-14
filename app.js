@@ -12,6 +12,7 @@ const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError');
+const logger = require('./utils/logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -43,5 +44,5 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+  logger.info(`App listening on port ${PORT}`);
 });
