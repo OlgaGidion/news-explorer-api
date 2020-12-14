@@ -1,10 +1,12 @@
 require('dotenv').config();
 
 const express = require('express');
+const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const routes = require('./routes');
+const limiter = require('./middlewares/rateLimiter');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const logger = require('./utils/logger');
@@ -20,6 +22,8 @@ mongoose.connect(MONGO_ADDRESS, {
 });
 
 const app = express();
+app.use(limiter);
+app.use(helmet());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
