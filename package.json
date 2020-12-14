@@ -1,7 +1,7 @@
 {
-  "name": "NewsExplorer",
+  "name": "news-explorer",
   "version": "1.0.0",
-  "description": "## Директории",
+  "description": "Сервис, в котором можно найти новости по запросу и сохранить в личном кабинете.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",

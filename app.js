@@ -15,8 +15,9 @@ const NotFoundError = require('./errors/NotFoundError');
 const logger = require('./utils/logger');
 
 const { PORT = 3000 } = process.env;
+const { MONGO_ADDRESS = 'mongodb://localhost:27017/newsExplorer' } = process.env;
 
-mongoose.connect('mongodb://localhost:27017/newsExplorer', {
+mongoose.connect(MONGO_ADDRESS, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
