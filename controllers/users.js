@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const RequestError = require('../errors/RequestError');
+const NotFoundError = require('../errors/NotFoundError');
 
 const signin = async (req, res, next) => {
   try {
@@ -22,6 +23,10 @@ const signin = async (req, res, next) => {
 const getMyUser = async (req, res, next) => {
   try {
     const myUser = await User.findById(req.user._id);
+    if (!myUser) {
+      next(new NotFoundError('Пользователь не найден'));
+      return;
+    }
 
     res.status(200).send(myUser);
   } catch (error) {

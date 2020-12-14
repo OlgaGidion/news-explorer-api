@@ -12,6 +12,7 @@
     "url": "git+https://github.com/OlgaGidion/news-explorer-api"
   },
   "author": "Olga Gidion",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/OlgaGidion/news-explorer-api/issues"
   },
