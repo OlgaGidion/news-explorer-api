@@ -25,7 +25,7 @@ const saveArticle = async (req, res, next) => {
     } = req.body;
 
     const owner = req.user._id;
-    await Article.create({
+    const article = await Article.create({
       keyword,
       title,
       description,
@@ -36,7 +36,7 @@ const saveArticle = async (req, res, next) => {
       owner,
     });
 
-    res.status(201).send({ message: 'Статья сохранена' });
+    res.status(201).send(article);
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new RequestError('Ошибка в данных'));
