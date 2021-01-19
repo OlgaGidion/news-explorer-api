@@ -17,7 +17,7 @@ const saveArticle = async (req, res, next) => {
     const {
       keyword,
       title,
-      text,
+      description,
       date,
       source,
       link,
@@ -28,7 +28,7 @@ const saveArticle = async (req, res, next) => {
     await Article.create({
       keyword,
       title,
-      text,
+      description,
       date,
       source,
       link,
